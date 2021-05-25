@@ -29,6 +29,8 @@ a{
 }
 h2{
     margin: 0;
+    text-decoration: none;
+    vertical-align: middle;
 }
 .Sidebar{
     margin: 0;
@@ -56,7 +58,7 @@ li{
     color: black;
     padding: 20px;
 }
-.nav-options{
+.nav-options, .nav-logout{
     float: right !important; 
     margin-right:20px !important;
     vertical-align: middle;

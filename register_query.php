@@ -11,21 +11,20 @@
         empty($password) ||
         empty($city) ||
         empty($address)){
-            die("cos jest puste");
+            $conn->close();
         }
         else{
             $sql = "INSERT INTO users VALUES(0, '$fname', '$lname', '$email', '$password', '$address', '$city', 0)";
             $conn->query($sql);
             
-            if($conn->error) 
+            if($conn->error){
                 die("Błąd tworzenia użytkownika: ". $conn->error);
-            else
+                $conn->close();
+            }
+            else{
                 header('Location: index.php');
+            }
         }
 
-        
-        $conn->close();
-
-        exit();
     }
 ?>

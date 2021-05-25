@@ -15,9 +15,11 @@
     <nav class="Main-navbar">
         <h1 style="float:left;"><a href="index.php">Wszystko i nic - sklep internetowy</a></h1>
         <?php
-            if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true){
-                echo '<h2 class="nav-options">Witaj, ' . htmlspecialchars($_SESSION["name"]) . '</h2>';
-                echo '<h2 class="nav-options"><a href="logout.php">Wyloguj się</a></h2>';
+            if(isset($_SESSION["loggedin"])){
+                if($_SESSION["loggedin"] == true){
+                    echo '<h2 class="nav-options"><a class="nav-options" href="logout.php">Wyloguj się</a></h2>';
+                    echo '<h2 class="nav-options">Witaj ' . $_SESSION["name"] . '</h2>';
+                }
             }
             else{
                 echo '<h2 class="nav-options"><a href="register.php">Zarejestruj się</a></h2>';

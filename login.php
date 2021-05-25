@@ -1,4 +1,3 @@
-<?php session_start(); ?>
 <!DOCTYPE html>
 <html lang="pl">
 <head>
@@ -9,20 +8,12 @@
     <link rel="stylesheet" href="register.css"/>
 </head>
 <body>
-    <p id="hello"><a href="index.php">Wszystko i nic - <br> sklep internetowy</a></p>
-    <div id="formBorder">
-        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
-            Email: 
-            <input type="email" name="email"><br><br>
-            Hasło:
-            <input type="password" name="password"><br><br>
-            <button type="submit">Zaloguj się</button>
-        </form>
-    </div>
     <?php
+        $errormsg = "";
         if($_SERVER["REQUEST_METHOD"] == "POST"){
-            if(isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] == true){
-                header("Location: index.php");
+            if(isset($_SESSION["loggedin"])){
+                if($_SESSION["loggedin"] == true)
+                    header("Location: index.php");
             }
             else{
                 $email = $_POST["email"];
@@ -42,26 +33,30 @@
                         $_SESSION["loggedin"] = true;
                         if($name->num_rows > 0){
                             $row_name = $name->fetch_assoc();
-                            $_SESSION["name"] = $row_name["name"];
+                            $_SESSION["name"] = $row_name["firstName"];
                         }
-                        else
+                        else{
                             die("Coś poszło nie tak :(");
+                        }
                         header("Location: index.php");
                     }
                 }
                 else
-                    trigger_error("Błąd: " . $conn->error);
-
-                //$sql = "SELECT email, password FROM users WHERE email = '$email' AND password = '$ver_password'";
-                //$result = $conn->query($sql);
-                //if($result->num_rows>0)
-                //    header("Location: index.php");
-                //else
-                //    trigger_error("Błąd: " . $conn->error);
-
+                    $errormsg = "Nieprawidłowy email lub hasło.";
                 $conn->close();
             }
         }
     ?>
+    <p id="hello"><a href="index.php">Wszystko i nic - <br> sklep internetowy</a></p>
+    <div id="formBorder">
+        <form method="POST" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>">
+            Email: 
+            <input type="email" name="email"><br><br>
+            Hasło:
+            <input type="password" name="password"><br>
+            <span><?php echo $errormsg . "<br>"?></span>
+            <button type="submit">Zaloguj się</button>
+        </form>
+    </div>
 </body>
 </html>
